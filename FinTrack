@@ -1,0 +1,91 @@
+import tkinter as tk
+from tkinter import ttk
+
+def init():
+    with open("incomes.txt", "w") as wincomes:
+        wincomes.write("0")
+    with open("outgoings.txt", "w") as woutgoings:
+        woutgoings.write("0")
+
+def rincomesf():
+    with open("incomes.txt", "r") as rincomes:
+        readincomes = rincomes.read()
+        return readincomes
+
+def routgoingsf():
+    with open("outgoings.txt", "r") as routgoings:
+        readoutgoings = routgoings.read()
+        return readoutgoings
+
+def addincome():
+    i = int(income_entry.get())
+    ai = int(rincomesf()) + i
+    with open("incomes.txt", "w") as wincomes:
+        wincomes.write(str(ai))
+    income_entry.delete(0, tk.END)
+    update_table()
+
+def addoutgoings():
+    o = int(outgoings_entry.get())
+    oi = int(routgoingsf()) + o
+    with open("outgoings.txt", "w") as woutgoings:
+        woutgoings.write(str(oi))
+    outgoings_entry.delete(0, tk.END)
+    update_table()
+
+def calcbudget():
+    calc = int(rincomesf()) - int(routgoingsf())
+    budget_label.config(text=f"Budget : {calc}")
+
+def update_table():
+    income = int(rincomesf())
+    outgoings = int(routgoingsf())
+    total = income - outgoings
+    table.insert("", "end", values=(income, outgoings, total))
+
+# Create Tkinter Window
+root = tk.Tk()
+root.title("Budget Tracker")
+
+# Borders for tags and entrens
+frame = tk.Frame(root)
+frame.pack(padx=10, pady=10)
+
+# Entrens tags and their fields
+income_label = tk.Label(frame, text="Income:")
+income_label.grid(row=0, column=0, padx=5, pady=5)
+income_entry = tk.Entry(frame)
+income_entry.grid(row=0, column=1, padx=5, pady=5)
+
+outgoings_label = tk.Label(frame, text="Outgoings:")
+outgoings_label.grid(row=1, column=0, padx=5, pady=5)
+outgoings_entry = tk.Entry(frame)
+outgoings_entry.grid(row=1, column=1, padx=5, pady=5)
+
+# Buttons
+income_button = tk.Button(frame, text="Add Income", command=addincome)
+income_button.grid(row=0, column=2, padx=5, pady=5)
+
+outgoings_button = tk.Button(frame, text="Add Outgoings", command=addoutgoings)
+outgoings_button.grid(row=1, column=2, padx=5, pady=5)
+
+calculate_button = tk.Button(frame, text="Calculate Budget", command=calcbudget)
+calculate_button.grid(row=2, columnspan=3, padx=5, pady=5)
+
+# Table
+table_frame = tk.Frame(root)
+table_frame.pack(padx=10, pady=10)
+table = ttk.Treeview(table_frame, columns=("Income", "Outgoings", "Total"))
+table.heading("#0", text="Step")
+table.heading("Income", text="Income")
+table.heading("Outgoings", text="Outgoings")
+table.heading("Total", text="Total")
+table.pack()
+
+# Budget tag
+budget_label = tk.Label(root, text="Budget : ")
+budget_label.pack(padx=10, pady=10)
+
+# Run
+init()
+root.mainloop()

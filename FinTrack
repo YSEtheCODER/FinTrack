@@ -35,7 +35,7 @@ def addoutgoings():
 
 def calcbudget():
     calc = int(rincomesf()) - int(routgoingsf())
-    budget_label.config(text=f"Budget : {calc}")
+    budget_label.config(text=f"Budget : {calc}", fg="white", bg="#4CAF50")
 
 def update_table():
     income = int(rincomesf())
@@ -43,37 +43,38 @@ def update_table():
     total = income - outgoings
     table.insert("", "end", values=(income, outgoings, total))
 
-# Create Tkinter Window
+# Tkinter penceresini oluştur
 root = tk.Tk()
 root.title("Budget Tracker")
+root.configure(bg="#f2f2f2")
 
-# Borders for tags and entrens
-frame = tk.Frame(root)
+# Girişler ve etiketler için çerçeve
+frame = tk.Frame(root, bg="#f2f2f2")
 frame.pack(padx=10, pady=10)
 
-# Entrens tags and their fields
-income_label = tk.Label(frame, text="Income:")
+# Giriş etiketleri ve alanları
+income_label = tk.Label(frame, text="Income:", bg="#f2f2f2")
 income_label.grid(row=0, column=0, padx=5, pady=5)
 income_entry = tk.Entry(frame)
 income_entry.grid(row=0, column=1, padx=5, pady=5)
 
-outgoings_label = tk.Label(frame, text="Outgoings:")
+outgoings_label = tk.Label(frame, text="Outgoings:", bg="#f2f2f2")
 outgoings_label.grid(row=1, column=0, padx=5, pady=5)
 outgoings_entry = tk.Entry(frame)
 outgoings_entry.grid(row=1, column=1, padx=5, pady=5)
 
-# Buttons
-income_button = tk.Button(frame, text="Add Income", command=addincome)
+# Butonlar
+income_button = tk.Button(frame, text="Add Income", command=addincome, bg="#008CBA", fg="white")
 income_button.grid(row=0, column=2, padx=5, pady=5)
 
-outgoings_button = tk.Button(frame, text="Add Outgoings", command=addoutgoings)
+outgoings_button = tk.Button(frame, text="Add Outgoings", command=addoutgoings, bg="#f44336", fg="white")
 outgoings_button.grid(row=1, column=2, padx=5, pady=5)
 
-calculate_button = tk.Button(frame, text="Calculate Budget", command=calcbudget)
+calculate_button = tk.Button(frame, text="Calculate Budget", command=calcbudget, bg="#4CAF50", fg="white")
 calculate_button.grid(row=2, columnspan=3, padx=5, pady=5)
 
-# Table
-table_frame = tk.Frame(root)
+# Tablo oluştur
+table_frame = tk.Frame(root, bg="#f2f2f2")
 table_frame.pack(padx=10, pady=10)
 table = ttk.Treeview(table_frame, columns=("Income", "Outgoings", "Total"))
 table.heading("#0", text="Step")
@@ -82,10 +83,10 @@ table.heading("Outgoings", text="Outgoings")
 table.heading("Total", text="Total")
 table.pack()
 
-# Budget tag
-budget_label = tk.Label(root, text="Budget : ")
+# Bütçe etiketi
+budget_label = tk.Label(root, text="Budget : ", bg="#4CAF50", fg="white")
 budget_label.pack(padx=10, pady=10)
 
-# Run
+# Uygulamayı çalıştır
 init()
 root.mainloop()
